@@ -3,23 +3,23 @@ import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 
-@Controller('todo')
+@Controller('api/v1')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
-  @Post()
+  @Post('/add')
   create(@Body() createTodoDto: CreateTodoDto) {
     return this.todoService.create(createTodoDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
-    return this.todoService.findAll();
+    return this.todoService.getAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.todoService.findOne(+id);
+    return this.todoService.getOne(+id);
   }
 
   @Patch(':id')
@@ -29,6 +29,6 @@ export class TodoController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+    return this.todoService.delete(+id);
   }
 }
