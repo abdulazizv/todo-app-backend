@@ -19,16 +19,16 @@ export class TodoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.todoService.getOne(+id);
+    return this.todoService.getOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+    return this.todoService.update(id, updateTodoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.todoService.delete(+id);
+    return this.todoService.delete(id);
   }
 }

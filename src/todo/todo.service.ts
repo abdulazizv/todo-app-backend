@@ -11,11 +11,16 @@ export class TodoService {
     @InjectModel(Todo.name) private todoModule: Model<TodoDocument>,
   ) {}
   async create(createTodoDto: CreateTodoDto) {
-    const newTodo = await new this.todoModule(createTodoDto);
-    if (!newTodo) {
+    const newTask = new this.todoModule({
+      title: createTodoDto.title,
+      status: createTodoDto.status,
+      expiring_date: createTodoDto.expiring_date,
+      user_id: 1, // tokendan yechib olib olishim kerak
+    });
+    if (!newTask) {
       throw new HttpException('Forbidden error', HttpStatus.FORBIDDEN);
     } else {
-      return newTodo;
+      return newTask;
     }
   }
 
@@ -23,7 +28,7 @@ export class TodoService {
     return this.todoModule.find().populate('user_id');
   }
 
-  async getOne(id: number) {
+  async getOne(id: string) {
     try {
       const toDo = await this.todoModule.findById(id);
     } catch (err) {
@@ -34,11 +39,11 @@ export class TodoService {
     }
   }
 
-  async update(id: number, updateTodoDto: UpdateTodoDto) {
+  async update(id: string, updateTodoDto: UpdateTodoDto) {
     return this.todoModule.findByIdAndUpdate(id, { ...updateTodoDto });
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     return this.todoModule.findByIdAndDelete(id);
   }
 }

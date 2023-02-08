@@ -1,17 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { forgetPasswordDto } from './dto/forget-password.dto';
 
 @Controller('api/v1')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
+  @Post('/register')
   create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+    return this.authService.register(createAuthDto);
   }
 
+  @Get('/login')
+  login(@Body() updateAuthDto: UpdateAuthDto) {
+    return this.authService.login(updateAuthDto);
+  }
+  @Post('/forgotpassword')
+  forgetPassword(@Body() forgetPasswordDto: forgetPasswordDto) {
+    return this.authService.forgotPassword(forgetPasswordDto);
+  }
   @Get('/users')
   findAll() {
     return this.authService.getAll();
