@@ -7,7 +7,7 @@ import { User, UserDocument } from './schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload, Tokens } from '../types';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
-import { forgetPasswordDto } from "./dto/forget-password.dto";
+import { forgetPasswordDto } from './dto/forget-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +23,7 @@ export class AuthService {
       email: createAuthDto.email,
       hashPassword: hash_password,
     });
+    await newUser.save();
     const tokens = await this.getTokens(String(newUser._id), newUser.email);
     return tokens;
   }
@@ -41,8 +42,8 @@ export class AuthService {
     }
   }
   async getAll() {
-    const oneUser = await this.userModule.find();
-    return oneUser;
+    const allUser = await this.userModule.find();
+    return allUser;
   }
 
   async forgotPassword(ForgetPasswordDto: forgetPasswordDto) {

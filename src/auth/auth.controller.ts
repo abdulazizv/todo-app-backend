@@ -21,7 +21,7 @@ export class AuthController {
     return this.authService.register(createAuthDto);
   }
 
-  @Get('/login')
+  @Post('/login')
   login(@Body() updateAuthDto: UpdateAuthDto) {
     return this.authService.login(updateAuthDto);
   }
@@ -39,12 +39,12 @@ export class AuthController {
     return this.authService.getOne(id);
   }
 
-  @Patch(':id')
+  @Patch('/user/:id')
   update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
     return this.authService.update(id, updateAuthDto);
   }
 
-  @Delete(':id')
+  @Delete('/user/:id')
   remove(@Param('id') id: string) {
     return this.authService.delete(id);
   }
